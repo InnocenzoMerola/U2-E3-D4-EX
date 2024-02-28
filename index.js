@@ -1,3 +1,5 @@
+const cart = [];
+
 fetch("https://striveschool-api.herokuapp.com/books")
   .then((response) => {
     console.log(response);
@@ -15,7 +17,7 @@ fetch("https://striveschool-api.herokuapp.com/books")
 
     bookData.forEach((book) => {
       const cont = document.createElement("div");
-      cont.classList.add("col-3", "mb-4");
+      cont.classList.add("col-8", "offset-2", "col-sm-6", "offset-sm-0", "col-md-6", "col-md-4", "col-lg-3", "mb-4");
 
       const card = document.createElement("div");
       card.classList.add("card");
@@ -24,6 +26,7 @@ fetch("https://striveschool-api.herokuapp.com/books")
       const img = document.createElement("img");
       img.classList.add("card-img-top");
       img.src = book.img;
+      img.style = "height: 320px; object-fit: fill";
 
       const cardBody = document.createElement("div");
       cardBody.classList.add("card-body");
@@ -37,17 +40,17 @@ fetch("https://striveschool-api.herokuapp.com/books")
       price.innerText = "Prezzo: " + book.price + " " + "$";
 
       const btnCont = document.createElement("div");
-      btnCont.classList.add("d-flex", "justify-content-center");
+      btnCont.classList.add("d-flex", "justify-content-center", "mb-1");
 
       const btnDel = document.createElement("button");
-      btnDel.classList.add("btn", "btn-danger", "px-4");
+      btnDel.classList.add("btn", "btn-danger", "px-3");
       btnDel.innerText = "Scarta";
       btnDel.addEventListener("click", () => {
         card.remove();
       });
 
       const btnAdd = document.createElement("button");
-      btnAdd.classList.add("btn", "btn-success", "px-5");
+      btnAdd.classList.add("btn", "btn-success", "px-4");
       btnAdd.innerText = "Compra Ora";
       btnAdd.addEventListener("click", () => {
         addCart(book);
@@ -65,10 +68,10 @@ fetch("https://striveschool-api.herokuapp.com/books")
 
       function addCart(book) {
         cart.push(book);
-        renderCart();
+        cartAddToList();
       }
 
-      function renderCart() {
+      function cartAddToList() {
         const cartCol = document.getElementById("cart-col");
         cartCol.innerHTML = "";
         const h2 = document.createElement("h2");
@@ -79,21 +82,21 @@ fetch("https://striveschool-api.herokuapp.com/books")
           const cartUl = document.createElement("ul");
           const cartElement = document.createElement("li");
 
-          cartElement.innerText = book.title;
+          cartElement.innerText = book.title + " " + book.price + " " + "$";
 
           const deletBook = document.createElement("button");
-          deletBook.classList.add("btn", "btn-danger", "px-4");
+          deletBook.classList.add("btn", "btn-danger", "px-1", "py-1", "ms-3");
           deletBook.innerText = "Scarta";
           deletBook.addEventListener("click", () => {
             cartElement.remove();
           });
 
-          //   .appendChild(deletBook);
-          cartCol.appendChild(cartElement);
+          cartUl.appendChild(cartElement);
+          cartElement.appendChild(deletBook);
+          cartCol.appendChild(cartUl);
         });
       }
     });
   })
 
   .catch((error) => console.log(error));
-const cart = [];
